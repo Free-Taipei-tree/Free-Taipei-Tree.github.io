@@ -10,30 +10,27 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
   <style>
-    /* 讓網頁滿版，隱藏滾動條 */
     body, html {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: sans-serif;
     }
 
-    /* 📌 關鍵：PNG 邊框疊加層 (UI Overlay) */
+    /* 📌 修改重點 1：尺寸 50% 且畫面絕對置中 */
     #ui-overlay {
       position: absolute;
-      top: 50;
-      left: 50;
-      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* 向上與向左偏移 50% 達到完美置中 */
       width: 50%;
       height: 50%;
-      z-index: 9999; /* 保證放在 3D 與鏡頭畫面之上 */
-      pointer-events: none; /* 穿透點擊，不影響畫面互動 */
+      z-index: 9999;
+      pointer-events: none;
       
-      /* 載入你的 PNG 圖檔 */
       background-image: url('treesemi.png');
-      background-size: contain; /* 自動縮放適應手機螢幕 */
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -41,15 +38,15 @@
 </head>
 <body>
 
-  <!-- UI 疊加層（呈現你的文字 PNG） -->
+  <!-- UI 疊加層（置中的 PNG 圖檔） -->
   <div id="ui-overlay"></div>
 
-  <!-- AR 3D 場景 -->
+  <!-- 📌 修改重點 2：加上 vr-mode-ui="enabled: false" 關閉 VR 圖示，且移除所有 3D 模型 -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
-    
-    <!-- 3D 組合物件：透明線框樹 (放在相機前方 3 米處，並自動旋轉) -->
-    <!-- AR 相機 -->
+
+    <!-- AR 相機（僅呈現即時鏡頭畫面） -->
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
   </a-scene>
 
 </body>
