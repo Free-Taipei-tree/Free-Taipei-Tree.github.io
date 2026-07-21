@@ -10,29 +10,26 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
   <style>
-    /* 讓網頁滿版，隱藏滾動條 */
     body, html {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: sans-serif;
     }
 
-    /* 📌 關鍵：PNG 邊框疊加層 (UI Overlay) */
+    /* 📌 修改重點 1：尺寸 50% 且畫面絕對置中 */
     #ui-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999; /* 保證放在 3D 與鏡頭畫面之上 */
-      pointer-events: none; /* 穿透點擊，不影響畫面互動 */
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      height: 50%;
+      z-index: 9999;
+      pointer-events: none;
       
-      /* 載入你的 PNG 圖檔 */
       background-image: url('treesemi.png');
-      background-size: contain; /* 自動縮放適應手機螢幕 */
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -40,63 +37,15 @@
 </head>
 <body>
 
-  <!-- UI 疊加層（呈現你的文字 PNG） -->
+  <!-- UI 疊加層（置中的 PNG 圖檔） -->
   <div id="ui-overlay"></div>
 
-  <!-- AR 3D 場景 -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-    
-    <!-- 3D 組合物件：透明線框樹 (放在相機前方 3 米處，並自動旋轉) -->
-    <a-entity position="0 -0.2 -3" animation="property: rotation; to: 0 360 0; loop: true; dur: 15000; easing: linear">
-      
-      <!-- 樹幹 (線框圓柱體) -->
-      <a-cylinder 
-        position="0 -0.5 0" 
-        radius="0.12" 
-        height="1.2" 
-        material="wireframe: true; color: #00ffff; transparent: true; opacity: 0.8;">
-      </a-cylinder>
+  <!-- 📌 修改重點 2：加上 vr-mode-ui="enabled: false" 關閉 VR 圖示，且移除所有 3D 模型 -->
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false">
 
-      <!-- 樹冠第一層 (線框圓錐) -->
-      <a-cone 
-        position="0 0.4 0" 
-        radius-bottom="0.8" 
-        radius-top="0.1" 
-        height="1.2" 
-        material="wireframe: true; color: #00ffff; transparent: true; opacity: 0.85;">
-      </a-cone>
-
-      <!-- 樹冠第二層 -->
-      <a-cone 
-        position="0 1.1 0" 
-        radius-bottom="0.6" 
-        radius-top="0.05" 
-        height="1.0" 
-        material="wireframe: true; color: #33ffff; transparent: true; opacity: 0.9;">
-      </a-cone>
-
-      <!-- 樹冠頂層 -->
-      <a-cone 
-        position="0 1.7 0" 
-        radius-bottom="0.4" 
-        radius-top="0.0" 
-        height="0.8" 
-        material="wireframe: true; color: #80ffff; transparent: true; opacity: 1;">
-      </a-cone>
-
-      <!-- 地面發光線框環 (提升科技質感) -->
-      <a-ring 
-        position="0 -1.1 0" 
-        rotation="-90 0 0" 
-        radius-inner="0.6" 
-        radius-outer="0.85" 
-        material="wireframe: true; color: #00ffff; side: double; transparent: true; opacity: 0.6;">
-      </a-ring>
-
-    </a-entity>
-
-    <!-- AR 相機 -->
+    <!-- AR 相機（僅呈現即時鏡頭畫面） -->
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
   </a-scene>
 
 </body>
